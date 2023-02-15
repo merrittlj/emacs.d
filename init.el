@@ -1,0 +1,6 @@
+(setq inhibit-startup-screen t)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(global-display-line-numbers-mode 1)
+(blink-cursor-mode 0)
+(setq-default  cursor-type `hbar)
