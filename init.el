@@ -8,3 +8,4 @@
 (setq-default tab-width 4)
 (setq c-basic-offset 4)
 (setq c-basic-indent 4)
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
