@@ -33,6 +33,8 @@
   (fringe (:background st-grey))
   (help-key-binding (:foreground st-grey :background st-dark-brown))
   (region (:foreground st-grey :background st-dark-brown))
+  (line-number (:foreground st-gold))
+  (line-number-current-line (:foreground st-gold))
   ))
 
 (provide-theme 'st)
