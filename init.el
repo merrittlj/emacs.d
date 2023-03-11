@@ -3,6 +3,7 @@
 (scroll-bar-mode -1)
 (menu-bar-mode -1);
 (global-display-line-numbers-mode 1)
+(setq display-line-numbers-type 'relative)
 (blink-cursor-mode 0)
 (setq-default cursor-type `hbar)
 
