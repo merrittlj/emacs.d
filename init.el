@@ -7,7 +7,7 @@
 (blink-cursor-mode 0)
 (setq-default cursor-type `hbar)
 
-(set-frame-font "Anonymous Pro 6")
+(set-frame-font "Anonymous Pro 12")
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
