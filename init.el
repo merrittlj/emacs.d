@@ -17,6 +17,14 @@
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (setq c-default-style "gnu")
 
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+  backup-by-copying t    ; Don't delink hardlinks
+  version-control t      ; Use version numbers on backups
+  delete-old-versions t  ; Automatically delete excess backups
+  kept-new-versions 20   ; how many of the newest versions to keep
+  kept-old-versions 5    ; and how many of the old
+  )
+
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme `st t)
 
