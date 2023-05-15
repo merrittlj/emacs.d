@@ -1,0 +1,4 @@
+;;;; -*- mode: lisp-data -*-
+(
+ (:id "sha1:516f6171502c475262e12b7d7e778aa1ff534d8e" :fingerprints (:none) :host "localhost:1143" :conditions (:unencrypted))
+)
