@@ -27,15 +27,16 @@
 
 (global-subword-mode)
 
-(global-set-key (kbd "C--") 'ace-window)
+(keyboard-translate ?\C-m ?\H-m)  ; Disambiguate C-m from <RET>, C-m translates to Hyper-m(shouldn't work in terminal mode!).
+(global-set-key (kbd "H-m") 'ace-window)
+
 (setq aw-dispatch-always t)
 (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
 
 (defalias 'insert-line-and-move
   (kmacro "C-e <return>"))
 
-(keyboard-translate ?\C-m ?\H-m)  ; Disambiguate C-m from <RET>, C-m translates to Hyper-m(shouldn't work in terminal mode!).
-(global-set-key (kbd "H-m") 'insert-line-and-move)
+(global-set-key (kbd "C-t") 'insert-line-and-move)  ; C-t is by default bound to transpose-char(or something similar of the matter), but is normally useless.
 
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme `st t)
