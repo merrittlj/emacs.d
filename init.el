@@ -25,18 +25,37 @@
   kept-old-versions 5    ; and how many of the old
   )
 
-(global-subword-mode)
+(global-subword-mode)  ; Allow word interactions to be based/"work" with camelCase and similar.
 
-(keyboard-translate ?\C-m ?\H-m)  ; Disambiguate C-m from <RET>, C-m translates to Hyper-m(shouldn't work in terminal mode!).
-(global-set-key (kbd "H-m") 'ace-window)
+; Swap C-t and C-x for easier access on Dvorak.
+(keyboard-translate ?\C-t ?\C-x)
+(keyboard-translate ?\C-x ?\C-t)
 
-(setq aw-dispatch-always t)
-(setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
+; Swap C-y and C-f for easier access on Dvorak.
+(keyboard-translate ?\C-y ?\C-f)
+(keyboard-translate ?\C-f ?\C-y)
 
-(defalias 'insert-line-and-move
-  (kmacro "C-e <return>"))
+; Change C-u to C-e, change C-o to C-u, change C-e to C-o, for easier Dvorak access.
+(keyboard-translate ?\C-u ?\C-e)
+(keyboard-translate ?\C-o ?\C-u)
+(keyboard-translate ?\C-e ?\C-o)
 
-(global-set-key (kbd "C-t") 'insert-line-and-move)  ; C-t is by default bound to transpose-char(or something similar of the matter), but is normally useless.
+; Swap M-t and M-x for easier access on Dvorak.
+(define-key key-translation-map (kbd "M-t") (kbd "M-x"))
+(define-key key-translation-map (kbd "M-x") (kbd "M-t"))
+
+; Swap M-y and M-f for easier access on Dvorak.
+(define-key key-translation-map (kbd "M-y") (kbd "M-f"))
+(define-key key-translation-map (kbd "M-f") (kbd "M-y"))
+
+;; Ensure ibuffer opens with point at the current buffer's entry.
+(defadvice ibuffer
+  (around ibuffer-point-to-most-recent) ()
+  "Open ibuffer with cursor pointed to most recent buffer name."
+  (let ((recent-buffer-name (buffer-name)))
+    ad-do-it
+    (ibuffer-jump-to-buffer recent-buffer-name)))
+(ad-activate 'ibuffer)
 
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme `st t)
