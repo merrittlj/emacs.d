@@ -35,6 +35,9 @@
   (region (:foreground st-grey :background st-dark-brown))
   (line-number (:foreground st-gold))
   (line-number-current-line (:foreground st-gold))
+  (helm-buffer-director (:foreground st-dark-brown :background st-light-yellow))
+  (helm-ff-directory (:foreground st-dark-brown :background st-light-yellow))
+  (helm-source-header (:foreground st-dark-brown :background st-gold))
   ))
 
 (provide-theme 'st)
