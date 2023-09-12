@@ -15,6 +15,7 @@
   (st-second-grey "#7a766f")
   (st-light-yellow "#ece2b1")
   (st-gold "#af5f00")
+  (white "#ffffff")
   )
 
  ;; customize faces
@@ -35,9 +36,16 @@
   (region (:foreground st-grey :background st-dark-brown))
   (line-number (:foreground st-gold))
   (line-number-current-line (:foreground st-gold))
-  (helm-buffer-director (:foreground st-dark-brown :background st-light-yellow))
-  (helm-ff-directory (:foreground st-dark-brown :background st-light-yellow))
-  (helm-source-header (:foreground st-dark-brown :background st-gold))
+  (minibuffer-prompt (:foreground st-indigo))
+  (isearch (:foreground white :background st-gold))
+  (ivy-current-match (:foreground white :background st-indigo))
+  (ivy-prompt-match (:foreground white :background st-indigo))
+  (ivy-minibuffer-match-face-2 (:foreground white :background st-gold))
+  (ivy-minibuffer-match-face-4 (:foreground white :background st-gold))
+  (ivy-subdir (:foreground white :background st-indigo))
+  (swiper-line-face (:foreground white :background st-indigo))
+  (swiper-match-face-1 (:foreground st-dark-brown :background st-light-yellow))
+  (swiper-match-face-3 (:foreground white :background st-orange))
   ))
 
 (provide-theme 'st)

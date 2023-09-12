@@ -28,8 +28,13 @@
 (global-subword-mode)  ; Allow word interactions to be based/"work" with camelCase and similar.
 
 (ivy-mode 1)
+(counsel-mode 1)
+
+(setq colir-compose-method nil)
 
 (setq aw-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n))
+
+(setq avy-timeout-seconds 0.5)
 
 ; Change ctl-x-map key and move transpose-chars elsewhere.
 (global-set-key (kbd "C-t") ctl-x-map)
@@ -49,13 +54,16 @@
 (keyboard-translate ?\C-m ?\H-m)  ; Disambiguate C-m from <RET>, C-m translates to Hyper-m(shouldn't work in terminal mode!).
 (global-set-key (kbd "H-m") 'ace-window)
 
-; Bind misc. helm functions.
-; (global-set-key (kbd "C-t C-f") 'helm-find-files)
-
 ; Change default i-search to Swiper i-search(displays results).
-; (global-set-key (kbd "C-s") 'swiper-isearch)
-; (global-set-key (kbd "C-r") 'swiper-isearch-backward)
-; (global-set-key (kbd "M-p") 'swiper-query-replace)
+(global-set-key (kbd "C-s") 'swiper-isearch)
+(global-set-key (kbd "C-r") 'swiper-isearch-backward)
+
+(define-key ivy-mode-map (kbd "C-l") 'swiper-query-replace)  ; M-q for swiper is hard to reach.
+
+(global-set-key (kbd "M-s u") 'avy-goto-char-timer)
+(global-set-key (kbd "M-s a") 'avy-goto-line)
+
+
 
 ;; ensure ibuffer opens with point at the current buffer's entry.
 (defadvice ibuffer
@@ -154,7 +162,7 @@
      (tramp-connection-local-default-system-profile
       (path-separator . ":")
       (null-device . "/dev/null"))))
- '(package-selected-packages '(counsel ivy ace-window magit autothemer)))
+ '(package-selected-packages '(avy ivy-avy counsel ivy ace-window magit autothemer)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
