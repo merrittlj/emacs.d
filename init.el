@@ -49,7 +49,7 @@
 (global-set-key (kbd "M-t") 'execute-extended-command)
 (global-set-key (kbd "M-x") 'transpose-words)
 
-(global-set-key (kbd "C-t g") 'magit-status)  ; Rebind magit-status.
+(global-set-key (kbd "C-t C-f") 'magit-status)  ; Rebind magit-status.
 
 (keyboard-translate ?\C-m ?\H-m)  ; Disambiguate C-m from <RET>, C-m translates to Hyper-m(shouldn't work in terminal mode!).
 (global-set-key (kbd "H-m") 'ace-window)
@@ -58,11 +58,15 @@
 (global-set-key (kbd "C-s") 'swiper-isearch)
 (global-set-key (kbd "C-r") 'swiper-isearch-backward)
 
-(define-key ivy-mode-map (kbd "C-l") 'swiper-query-replace)  ; M-q for swiper is hard to reach.
+(define-key ivy-mode-map (kbd "M-s M-c") 'swiper-query-replace)  ; M-q for swiper is hard to reach.
 
-(global-set-key (kbd "M-s u") 'avy-goto-char-timer)
-(global-set-key (kbd "M-s a") 'avy-goto-line)
+(global-set-key (kbd "M-s M-t") 'avy-goto-char)
+(global-set-key (kbd "M-s M-s") 'avy-goto-line)
 
+(global-set-key (kbd "C-t C-g") 'ivy-switch-buffer)
+(global-set-key (kbd "C-t g") 'ibuffer)
+(global-set-key (kbd "C-t C-r") 'counsel-find-file)
+(global-set-key (kbd "C-t C-b") 'find-file-read-only)
 
 
 ;; ensure ibuffer opens with point at the current buffer's entry.
