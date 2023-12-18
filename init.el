@@ -80,14 +80,20 @@
       (path-separator . ":")
       (null-device . "/dev/null"))))
  '(custom-safe-themes
-   '("fc608d4c9f476ad1da7f07f7d19cc392ec0fb61f77f7236f2b6b42ae95801a62" default))
+   '("69f7e8101867cfac410e88140f8c51b4433b93680901bb0b52014144366a08c8" "21e3d55141186651571241c2ba3c665979d1e886f53b2e52411e9e96659132d4" "fc608d4c9f476ad1da7f07f7d19cc392ec0fb61f77f7236f2b6b42ae95801a62" default))
  '(package-selected-packages
    '(default-font-presets modus-themes avy ivy-avy counsel ivy ace-window magit autothemer)))
+
+(defun read-file-numeric (filename)
+  "Return the numeric contents value of FILENAME."
+  (with-temp-buffer
+    (insert-file-contents filename)
+    (string-to-number (buffer-string))))
 
 (setq inhibit-startup-screen t)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(menu-bar-mode -1);
+(menu-bar-mode -1)
 (global-display-line-numbers-mode 1)
 (setq display-line-numbers-type 'relative)
 (blink-cursor-mode 0)
@@ -169,10 +175,20 @@
 (require 'modus-themes)
 (setq modus-themes-disable-other-themes t)
 
-(load-theme 'modus-operandi)
-(enable-theme 'modus-operandi)
+(if (eq (read-file-numeric (concat (getenv "THEME_PATH") "theme.value")) 0)
+    (progn
+      (load-theme 'modus-operandi)
+      (enable-theme 'modus-operandi)
+      )
+  (if (eq (read-file-numeric (concat (getenv "THEME_PATH") "theme.value")) 1)
+      (progn
+        (load-theme 'modus-vivendi)
+        (enable-theme 'modus-vivendi)
+        )
+    )
+  )
 
-(set-frame-font "Proggy Vector Dotted 12")
+(setq default-frame-alist '((font . "Proggy Vector Dotted 6")))
 
 ;; For font testing
 ;; (setq default-font-presets-list
