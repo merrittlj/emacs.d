@@ -84,11 +84,76 @@
  '(package-selected-packages
    '(default-font-presets modus-themes avy ivy-avy counsel ivy ace-window magit autothemer)))
 
-(defun read-file-numeric (filename)
+(defun merritt/read-file-numeric (filename)
   "Return the numeric contents value of FILENAME."
   (with-temp-buffer
     (insert-file-contents filename)
     (string-to-number (buffer-string))))
+
+(defun merritt/-scroll-percentage-decimal ()
+  "Return the percentage scrolled through a window as a decimal(ex: 20% = 0.2, internal)."
+  (/ (float (line-number-at-pos (window-start)))
+     (float (line-number-at-pos (point-max)))
+     )
+  )
+
+(defun merritt/-set-window-start-to-percentage (scroll-percentage)
+  "Sets the window start to a percentage in the buffer(internal)."
+  
+  (goto-char (point-min))
+  (let ((target-line-number (truncate (* (line-number-at-pos (point-max)) scroll-percentage))))  ; Get desired line number to start at(truncated result of the percentage and the total line count).
+    (forward-line (1- target-line-number))
+    )
+  (set-window-start nil (point))  ; Start the window at the desired line number/current point(line number is now the first line displayed on the screen).
+  )
+
+(defun merritt/-render-markdown-preview-current-buffer ()  ; Actually render the current buffer as a Markdown file.
+  "Renders a preview of the current buffer as a Markdown file(requires variables, internal)."
+  
+  (message "Rendering Markdown preview of %s" filename)
+  
+  (shell-command-on-region (point-min) (point-max) conversion-cmd output-name)  ; Convert the current buffer's Markdown into HTML.
+  (switch-to-buffer-other-window output-name)  ; Switch to a different window containing the specified buffer, creating/opening a window or buffer if either is non-existent.
+
+  (let ((dom (libxml-parse-html-region (point-min) (point-max))))  ; Parse HTML into Lisp "cons" list.
+    (erase-buffer)
+    
+    ;; Renders the "cons" list into the current buffer(output-name buffer in this case).
+    ;; Wraps HTML list with "base", which specifies what path relative URLs should base their resolution on.
+    ;; Uses backquote-splicing to return everything literally except what is preceded with a comma(ex: below returns (base ((href . "file://test.md")) "test document") )
+    (shr-insert-document `(base ((href . ,url)) ,dom))
+    
+    (setq buffer-read-only t)
+    )
+  )
+
+(defun merritt/-markdown-preview-file (filename)  ; Fully preview a specified markdown file.
+  "Fully preview the specified Markdown file in a new window with variables and additional features([scroll-save, relative URLs, etc.], internal)."
+
+  (save-selected-window
+    (find-file filename)
+    (let ((url (concat "file://" filename))
+          (output-name "*Markdown Preview*")
+          (conversion-cmd "pandoc --from gfm+raw_html")
+          (previous-scroll-percentage (merritt/-scroll-percentage-decimal)))
+      (merritt/-render-markdown-preview-current-buffer)
+      (merritt/-set-window-start-to-percentage previous-scroll-percentage)
+      )
+    )
+  )
+
+(defun merritt/markdown-preview (&optional filename)  ; Handle preview command when used interactively.
+  "Previews a specified Markdown file(interactively/parameter), or default to the current buffer."
+
+  (interactive "fFile: ")
+  (if filename  ; Preview a specified file.
+      (progn
+        (merritt/-markdown-preview-file filename)
+        (switch-to-buffer (current-buffer))  ; TODO: Does this open the Markdown editing file if it is not open?
+        )
+    (merritt/-markdown-preview-file buffer-file-name)  ; Preview the current buffer.
+    )
+  )
 
 (setq inhibit-startup-screen t)
 (tool-bar-mode -1)
@@ -175,12 +240,12 @@
 (require 'modus-themes)
 (setq modus-themes-disable-other-themes t)
 
-(if (eq (read-file-numeric (concat (getenv "THEME_PATH") "theme.value")) 0)
+(if (eq (merritt/read-file-numeric (concat (getenv "THEME_PATH") "theme.value")) 0)
     (progn
       (load-theme 'modus-operandi)
       (enable-theme 'modus-operandi)
       )
-  (if (eq (read-file-numeric (concat (getenv "THEME_PATH") "theme.value")) 1)
+  (if (eq (merritt/read-file-numeric (concat (getenv "THEME_PATH") "theme.value")) 1)
       (progn
         (load-theme 'modus-vivendi)
         (enable-theme 'modus-vivendi)
