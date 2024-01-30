@@ -82,7 +82,7 @@
  '(custom-safe-themes
    '("69f7e8101867cfac410e88140f8c51b4433b93680901bb0b52014144366a08c8" "21e3d55141186651571241c2ba3c665979d1e886f53b2e52411e9e96659132d4" "fc608d4c9f476ad1da7f07f7d19cc392ec0fb61f77f7236f2b6b42ae95801a62" default))
  '(package-selected-packages
-   '(default-font-presets modus-themes avy ivy-avy counsel ivy ace-window magit autothemer)))
+   '(markdown-mode default-font-presets modus-themes avy ivy-avy counsel ivy ace-window magit autothemer)))
 
 (defun merritt/read-file-numeric (filename)
   "Return the numeric contents value of FILENAME."
@@ -154,6 +154,10 @@
     (merritt/-markdown-preview-file buffer-file-name)  ; Preview the current buffer.
     )
   )
+
+(add-hook 'markdown-mode-hook
+          (lambda ()
+            (add-hook 'after-save-hook #'merritt/markdown-preview nil t)))
 
 (setq inhibit-startup-screen t)
 (tool-bar-mode -1)
@@ -253,7 +257,7 @@
     )
   )
 
-(setq default-frame-alist '((font . "Proggy Vector Dotted 6")))
+(setq default-frame-alist '((font . "Proggy Vector Dotted 14")))
 
 ;; For font testing
 ;; (setq default-font-presets-list
